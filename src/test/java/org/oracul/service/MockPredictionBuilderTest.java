@@ -16,8 +16,8 @@ public class MockPredictionBuilderTest {
 		MockPredictionBuilder mockPredictionBuilder = new MockPredictionBuilder();
 		mockPredictionBuilder.setuDimension(60);
 		mockPredictionBuilder.setvDimension(61);
-		mockPredictionBuilder.setuValuesPath(uFile);
-		mockPredictionBuilder.setvValuesPath(vFile);
+//		mockPredictionBuilder.setuValuesPath(uFile);
+//		mockPredictionBuilder.setvValuesPath(vFile);
 		Prediction2D prediction2D = mockPredictionBuilder.build2DPrediction();
 		Assert.assertNotNull(prediction2D);
 	}
