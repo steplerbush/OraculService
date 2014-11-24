@@ -9,6 +9,6 @@
 
     <context:component-scan base-package="org.oracul.service"/>
     <mvc:annotation-driven/>
-
+    <!--//TODO pivanenko  errors handler-->
 
 </beans>
