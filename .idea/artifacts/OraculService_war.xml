@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="OraculService:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="OraculService.war">
-      <element id="artifact" artifact-name="OraculService:war exploded" />
-    </root>
-  </artifact>
-</component>
