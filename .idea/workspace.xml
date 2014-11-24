@@ -2,17 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="667466f2-6ca3-44a3-9227-a383ba3da2ec" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/oracul/service/dto/Greetings.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/oracul/service/controller/HelloController.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/oracul/service/HelloController.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/oracul-servlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/oracul/service/AppTests.java" afterPath="$PROJECT_DIR$/src/test/java/org/oracul/service/AppTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OraculService.iml" afterPath="$PROJECT_DIR$/OraculService.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/OraculService_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/OraculService_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="target/" />
@@ -92,8 +81,8 @@
       <file leaf-file-name="AppTests.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/oracul/service/AppTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.70660144" vertical-offset="53" max-vertical-offset="810">
-              <caret line="19" column="29" selection-start-line="0" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.26650366" vertical-offset="53" max-vertical-offset="810">
+              <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -713,7 +702,7 @@
       <option name="number" value="Default" />
       <updated>1416846558372</updated>
       <workItem from="1416846562229" duration="493000" />
-      <workItem from="1416847154682" duration="5060000" />
+      <workItem from="1416847154682" duration="5735000" />
     </task>
     <task id="LOCAL-00001" summary="gitignore">
       <created>1416848213243</created>
@@ -721,11 +710,17 @@
       <option name="project" value="LOCAL" />
       <updated>1416848213243</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="spring 4">
+      <created>1416852457390</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1416852457390</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5553000" />
+    <option name="totallyTimeSpent" value="6228000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="66" y="23" width="1358" height="877" extended-state="0" />
@@ -779,7 +774,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore" />
+    <MESSAGE value="spring 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="spring 4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -942,8 +938,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/oracul/service/AppTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70660144" vertical-offset="53" max-vertical-offset="810">
-          <caret line="19" column="29" selection-start-line="0" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.26650366" vertical-offset="53" max-vertical-offset="810">
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
           <folding />
         </state>
       </provider>
