@@ -1,6 +1,6 @@
 package org.oracul.service.controller;
 
-import org.oracul.service.builder.MockPredictionBuilder;
+import org.oracul.service.builder.PredictionBuilder;
 import org.oracul.service.dto.Prediction2D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @RestController
 public class MockPredictionController {
 	@Autowired
-	private MockPredictionBuilder builder;
+	private PredictionBuilder builder;
 
 	@Autowired
 	private ResourceLoader resourceLoader;

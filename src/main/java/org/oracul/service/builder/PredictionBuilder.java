@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Component
-public class MockPredictionBuilder {
+public class PredictionBuilder {
 
 	@Value("60")
 	private int uDimension;
@@ -41,13 +41,6 @@ public class MockPredictionBuilder {
 		this.vDimension = vDimension;
 	}
 
-	public int getuDimension() {
-		return uDimension;
-	}
-
-	public int getvDimension() {
-		return vDimension;
-	}
 
 
 }
