@@ -13,6 +13,6 @@
 
 	<servlet-mapping>
 		<servlet-name>oracul</servlet-name>
-		<url-pattern>/oracul/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 </web-app>

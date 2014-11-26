@@ -3,6 +3,7 @@ package org.oracul.service.controller;
 import org.oracul.service.builder.MockPredictionBuilder;
 import org.oracul.service.dto.Prediction2D;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,14 +20,20 @@ public class MockPredictionController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 
+	@Value("${mock.u.path}")
+	private String mockUpath;
+
+	@Value("${mock.v.path}")
+	private String mockVpath;
+
 	@RequestMapping(value = "/mock", method = RequestMethod.GET)
 	public Prediction2D getMockPrediction() {
 
 		File uValuesFile;
 		File vValuesFile;
 		try {
-			uValuesFile = resourceLoader.getResource("classpath:mockData/u.out").getFile();
-			vValuesFile = resourceLoader.getResource("classpath:mockData/u.out").getFile();
+			uValuesFile = resourceLoader.getResource(mockUpath).getFile();
+			vValuesFile = resourceLoader.getResource(mockVpath).getFile();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
