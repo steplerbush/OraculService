@@ -14,6 +14,7 @@ import java.io.IOException;
 
 @RestController
 public class MockPredictionController {
+
 	@Autowired
 	private PredictionBuilder builder;
 
