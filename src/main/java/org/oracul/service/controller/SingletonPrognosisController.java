@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.io.IOException;
 
 @RestController
 public class SingletonPrognosisController {
@@ -28,26 +29,37 @@ public class SingletonPrognosisController {
 	@Value("${oracul.execute.command}")
 	private String executeOraculCommand;
 
+	@Value("${oracul.singleton-results.u}")
+	private String singletonUpath;
+	@Value("${oracul.singleton-results.v}")
+	private String singletonVpath;
+
 	@RequestMapping(value = "/singleton", method = RequestMethod.GET)
 	public synchronized Prediction2D getMockPrediction() {
 		try {
-			ProcessBuilder builder = new ProcessBuilder(executeOraculCommand);
-			builder.directory(new File(executeOraculDir));
-			Process start = builder.start();
-			start.waitFor();
-
-//			ProcessBuilder builder = new ProcessBuilder("./sleep.sh");
-//			builder.directory(new File("/Users/metzgermeister/temp/"));
-//			Process start = builder.start();
-//			start.waitFor();
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("executed oracul");
-			}
+			executeOracul();
+			return buildResults();
 		} catch (Exception e) {
 			logger.error("failed to execute oracul", e);
 			throw new RuntimeException(e);
 		}
-		return new Prediction2D(new double[]{42}, new double[]{42}, 1, 1);
+
+	}
+
+	private Prediction2D buildResults() {
+		File uValuesFile = new File(singletonUpath);
+		File vValuesFile = new File(singletonVpath);
+		return builder.build2DPrediction(uValuesFile, vValuesFile);
+	}
+
+	private void executeOracul() throws IOException, InterruptedException {
+		ProcessBuilder builder = new ProcessBuilder(executeOraculCommand);
+		builder.directory(new File(executeOraculDir));
+		Process start = builder.start();
+		start.waitFor();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("executed oracul");
+		}
 	}
 }

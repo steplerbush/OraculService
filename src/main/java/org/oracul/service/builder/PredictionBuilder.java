@@ -12,9 +12,9 @@ import java.util.Arrays;
 @Component
 public class PredictionBuilder {
 
-	@Value("60")
+	@Value("${2d.size.u}")
 	private int uDimension;
-	@Value("61")
+	@Value("${2d.size.v}")
 	private int vDimension;
 
 	public Prediction2D build2DPrediction(File uValuesFile, File vValuesFile) {
