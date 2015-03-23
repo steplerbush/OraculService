@@ -1,65 +1,55 @@
 package org.oracul.service.controller;
 
 import org.apache.log4j.Logger;
-import org.oracul.service.builder.PredictionBuilder;
-import org.oracul.service.dto.Prediction2D;
+import org.oracul.service.dto.PredictionStatus;
+import org.oracul.service.dto.PredictionTask;
+import org.oracul.service.util.PredictionResult;
+import org.oracul.service.util.PredictionResultHolder;
+import org.oracul.service.util.PredictionWorker;
+import org.oracul.service.util.StatusTaskHolder;
+import org.oracul.service.util.TaskQueue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 public class SingletonPrognosisController {
 
-	private static final Logger logger = Logger.getLogger(SingletonPrognosisController.class);
+	private static final Logger logger = Logger
+			.getLogger(SingletonPrognosisController.class);
 
 	@Autowired
-	private PredictionBuilder builder;
+	private TaskQueue queue;
 
 	@Autowired
-	private ResourceLoader resourceLoader;
+	private PredictionWorker worker;
 
-	@Value("${oracul.execute.dir}")
-	private String executeOraculDir;
-	@Value("${oracul.execute.command}")
-	private String executeOraculCommand;
+	@Autowired
+	private PredictionResultHolder result;
 
-	@Value("${oracul.singleton-results.u}")
-	private String singletonUpath;
-	@Value("${oracul.singleton-results.v}")
-	private String singletonVpath;
+	@Autowired
+	private StatusTaskHolder statusHolder;
 
-	@RequestMapping(value = "/singleton", method = RequestMethod.GET)
-	public synchronized Prediction2D getMockPrediction() {
-		try {
-			executeOracul();
-			return buildResults();
-		} catch (Exception e) {
-			logger.error("failed to execute oracul", e);
-			throw new RuntimeException(e);
-		}
-
+	@RequestMapping(value = "/orderPrediction", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Object orderPrediction() throws InterruptedException {
+		PredictionTask task = new PredictionTask();
+		queue.addTask(task);
+		statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
+		return "localhost:8080/OraculService/prediction/" + task.getId();
 	}
 
-	private Prediction2D buildResults() {
-		File uValuesFile = new File(singletonUpath);
-		File vValuesFile = new File(singletonVpath);
-		return builder.build2DPrediction(uValuesFile, vValuesFile);
-	}
-
-	private void executeOracul() throws IOException, InterruptedException {
-		ProcessBuilder builder = new ProcessBuilder(executeOraculCommand);
-		builder.directory(new File(executeOraculDir));
-		Process start = builder.start();
-		start.waitFor();
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("executed oracul");
+	@RequestMapping(value = "/prediction/{id}", method = RequestMethod.GET)
+	public Object getPrediction(@PathVariable("id") Long id) {
+		PredictionResult prediction;
+		if ((prediction = result.getResult(id)) != null) {
+			return prediction.getResult();
+		} else {
+			return statusHolder.checkStatus(id);
 		}
 	}
 }

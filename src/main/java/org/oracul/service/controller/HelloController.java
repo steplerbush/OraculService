@@ -10,6 +10,6 @@ public class HelloController {
 
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public Greetings printWelcome() {
-		return new Greetings("hi from Oracul");
+		return new Greetings("hi from Oracul v 1.2");
 	}
 }
