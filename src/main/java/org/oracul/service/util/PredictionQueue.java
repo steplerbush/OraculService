@@ -5,13 +5,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
-import org.oracul.service.dto.PredictionTask;
 import org.oracul.service.exception.QueueOverflowException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TaskQueue {
+public class PredictionQueue<T extends Runnable> {
 
 	@Value("${queue.size}")
 	private int queueSize;
@@ -19,14 +18,14 @@ public class TaskQueue {
 	@Value("${timeout}")
 	private int timeout;
 
-	private LinkedBlockingQueue<PredictionTask> queue;
+	private LinkedBlockingQueue<T> queue;
 
 	@PostConstruct
 	public void initQueue() {
-		queue = new LinkedBlockingQueue<>(queueSize);
+		queue = new LinkedBlockingQueue<T>(queueSize);
 	}
 
-	public void addTask(PredictionTask task) throws InterruptedException {
+	public void addTask(T task) throws InterruptedException {
 		if (!queue.offer(task, timeout, TimeUnit.MILLISECONDS)) {
 			throw new QueueOverflowException();
 		}
@@ -36,7 +35,7 @@ public class TaskQueue {
 		return queue.size() == 0;
 	}
 
-	public PredictionTask getTask() {
+	public T getTask() {
 		return queue.poll();
 	}
 

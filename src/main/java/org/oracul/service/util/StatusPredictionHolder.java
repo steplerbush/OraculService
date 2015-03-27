@@ -6,10 +6,10 @@ import org.oracul.service.dto.PredictionStatus;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StatusTaskHolder {
+public class StatusPredictionHolder {
 	ConcurrentHashMap<Long, PredictionStatus> statuses;
 
-	public StatusTaskHolder() {
+	public StatusPredictionHolder() {
 		statuses = new ConcurrentHashMap<>();
 	}
 

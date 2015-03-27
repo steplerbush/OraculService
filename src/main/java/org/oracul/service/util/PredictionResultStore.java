@@ -1,17 +1,15 @@
 package org.oracul.service.util;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
-import org.oracul.service.dto.PredictionTask;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PredictionResultHolder {
+public class PredictionResultStore {
 
 	private HashMap<Long, PredictionResult> results;
 
-	public PredictionResultHolder() {
+	public PredictionResultStore() {
 		results = new HashMap<Long, PredictionResult>();
 	}
 
