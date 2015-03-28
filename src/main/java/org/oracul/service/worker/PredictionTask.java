@@ -35,4 +35,6 @@ public abstract class PredictionTask implements Runnable {
 		return id;
 	}
 
+	public abstract int getCores();
+
 }

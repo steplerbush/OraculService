@@ -20,6 +20,7 @@ public class OraculStartupController {
 	@Autowired
 	private PredictionExecutor predictionExecutor;
 
+    @RequestMapping("start")
 	@ResponseStatus(HttpStatus.OK)
 	public String startService() {
 		executorService.startService();

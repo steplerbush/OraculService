@@ -13,7 +13,7 @@ public class PredictionExecutorService {
 	private boolean started;
 
 	@Value("${service.load}")
-	private int load;
+	private Integer load;
 
 	public void startService() {
 		if (service == null || service.isShutdown() || service.isTerminated()) {
@@ -45,7 +45,7 @@ public class PredictionExecutorService {
 		this.started = started;
 	}
 
-	public int getLoad() {
+	public Integer getLoad() {
 		return load;
 	}
 }
