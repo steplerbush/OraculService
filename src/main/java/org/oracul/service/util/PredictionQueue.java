@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PredictionQueue<T extends Runnable> {
+public class PredictionQueue<T> {
 
 	@Value("${queue.size}")
 	private int queueSize;

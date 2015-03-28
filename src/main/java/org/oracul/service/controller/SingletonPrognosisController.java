@@ -1,13 +1,13 @@
 package org.oracul.service.controller;
 
-import org.apache.log4j.Logger;
-import org.oracul.service.dto.Prediction2DTask;
 import org.oracul.service.dto.PredictionStatus;
-import org.oracul.service.util.PredictionExecutor;
+import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.util.PredictionQueue;
 import org.oracul.service.util.PredictionResult;
 import org.oracul.service.util.PredictionResultStore;
 import org.oracul.service.util.StatusPredictionHolder;
+import org.oracul.service.worker.PredictionTask;
+import org.oracul.service.worker.PredictionTask3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/prediction")
 public class SingletonPrognosisController {
 
-	private static final Logger logger = Logger.getLogger(SingletonPrognosisController.class);
-
 	@Autowired
-	private PredictionQueue<Runnable> queue;
+	private PredictionQueue<PredictionTask> queue;
 
 	@Autowired
 	private PredictionExecutor executor;
@@ -37,7 +35,7 @@ public class SingletonPrognosisController {
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Object orderPrediction() throws InterruptedException {
-		Prediction2DTask task = new Prediction2DTask();
+		PredictionTask task = new PredictionTask3D();
 		queue.addTask(task);
 		statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
 		if (executor.getState() == Thread.State.WAITING) {

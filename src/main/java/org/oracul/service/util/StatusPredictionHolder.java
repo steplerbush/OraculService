@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StatusPredictionHolder {
-	ConcurrentHashMap<Long, PredictionStatus> statuses;
+	private ConcurrentHashMap<Long, PredictionStatus> statuses;
 
 	public StatusPredictionHolder() {
 		statuses = new ConcurrentHashMap<>();

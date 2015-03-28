@@ -1,6 +1,6 @@
 package org.oracul.service.controller;
 
-import org.oracul.service.builder.PredictionBuilder;
+import org.oracul.service.builder.PredictionBuilder2D;
 import org.oracul.service.dto.Prediction2D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class MockPredictionController {
 
 	@Autowired
-	private PredictionBuilder builder;
+	private PredictionBuilder2D builder;
 
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -38,6 +38,6 @@ public class MockPredictionController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return builder.build2DPrediction(uValuesFile, vValuesFile);
+		return null;// builder.build2DPrediction(uValuesFile, vValuesFile);
 	}
 }
