@@ -7,6 +7,7 @@ import org.oracul.service.util.PredictionResult;
 import org.oracul.service.util.PredictionResultStore;
 import org.oracul.service.util.StatusPredictionHolder;
 import org.oracul.service.worker.PredictionTask;
+import org.oracul.service.worker.PredictionTask2D;
 import org.oracul.service.worker.PredictionTask3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,17 +33,19 @@ public class SingletonPrognosisController {
 	@Autowired
 	private StatusPredictionHolder statusHolder;
 
-	@RequestMapping(value = "/order", method = RequestMethod.GET)
+	@RequestMapping(value = "/order2d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Object orderPrediction() throws InterruptedException {
-		PredictionTask task = new PredictionTask3D();
-		queue.addTask(task);
-		statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
-		if (executor.getState() == Thread.State.WAITING) {
-			executor.resumeExecutor();
-		}
-		return "localhost:8080/OraculService/prediction/" + task.getId();
+	public Object order2dPrediction() throws InterruptedException {
+		PredictionTask task = new PredictionTask2D();
+        return orderPrediction(task);
 	}
+
+    @RequestMapping(value = "/order3d", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Object order3dPrediction() throws InterruptedException {
+        PredictionTask task = new PredictionTask3D();
+        return orderPrediction(task);
+    }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Object getPrediction(@PathVariable("id") Long id) {
@@ -53,4 +56,13 @@ public class SingletonPrognosisController {
 			return statusHolder.checkStatus(id);
 		}
 	}
+
+    public Object orderPrediction(PredictionTask task) throws InterruptedException {
+        queue.addTask(task);
+        statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
+        if (executor.getState() == Thread.State.WAITING) {
+            executor.resumeExecutor();
+        }
+        return "localhost:8080/OraculService/prediction/" + task.getId();
+    }
 }

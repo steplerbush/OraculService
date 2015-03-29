@@ -31,4 +31,5 @@ public class PredictionTask3D extends PredictionTask {
 		statusHolder.removeStatus(getId());
 		executor.unload(core);
 	}
+	public  int getCores(){return core;}
 }
