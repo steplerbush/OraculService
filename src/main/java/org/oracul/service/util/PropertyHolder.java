@@ -1,0 +1,48 @@
+package org.oracul.service.util;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class PropertyHolder {
+
+	@Value("${2d.load}")
+	private Integer core2d;
+	@Value("${oracul.execute.dir.2d}")
+	private String executeOraculDir2D;
+	@Value("${oracul.execute.command.2d}")
+	private String executeOraculCommand2D;
+
+	@Value("${3d.load}")
+	private Integer core3d;
+
+	@Value("${oracul.execute.dir.3d}")
+	private String executeOraculDir3D;
+	@Value("${oracul.execute.command.3d}")
+	private String executeOraculCommand3D;
+
+	public Integer getCore2d() {
+		return core2d;
+	}
+
+	public String getExecuteOraculDir2D() {
+		return executeOraculDir2D;
+	}
+
+	public String getExecuteOraculCommand2D() {
+		return executeOraculCommand2D;
+	}
+
+	public Integer getCore3d() {
+		return core3d;
+	}
+
+	public String getExecuteOraculDir3D() {
+		return executeOraculDir3D;
+	}
+
+	public String getExecuteOraculCommand3D() {
+		return executeOraculCommand3D;
+	}
+
+}

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PredictionBuilder3D extends PredictionBuilder<Prediction3D> {
+public class PredictionBuilder3D extends PredictionBuilder {
 
 	@Value("${oracul.root.output.3d}")
 	private String pathToFiles;
@@ -25,7 +25,6 @@ public class PredictionBuilder3D extends PredictionBuilder<Prediction3D> {
 		super(u3Dimension, v3Dimension);
 	}
 
-	@Override
 	public Prediction3D buildPrediction(Long id) {
 		File[] files = new File(pathToFiles).listFiles();
 		double[] outputs = null;

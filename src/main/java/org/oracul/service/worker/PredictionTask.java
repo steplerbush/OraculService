@@ -1,28 +1,33 @@
 package org.oracul.service.worker;
 
-import org.oracul.service.builder.PredictionBuilder2D;
-import org.oracul.service.calculator.PredictionCalculator;
+import org.apache.log4j.Logger;
+import org.oracul.service.builder.PredictionBuilder;
 import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.util.PredictionResultStore;
-import org.oracul.service.util.StatusPredictionHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class PredictionTask implements Runnable {
 
+	private static final Logger LOGGER = Logger.getLogger(PredictionTask.class);
+
 	private Long id;
 	private static long counter;
 
-	@Autowired
+
 	PredictionExecutor executor;
+	
+	public void setExecutor(PredictionExecutor executor) {
+		this.executor = executor;
+	}
 
-	@Autowired
-	PredictionBuilder2D builder;
+	private PredictionBuilder builder;
 
-	@Autowired
-	StatusPredictionHolder statusHolder;
+	// @Autowired
+	// PredictionStatusHolder statusHolder;
 
-	@Autowired
-	PredictionCalculator calculator;
+	public void setBuilder(PredictionBuilder builder) {
+		this.builder = builder;
+	}
 
 	@Autowired
 	PredictionResultStore store;
@@ -35,6 +40,20 @@ public abstract class PredictionTask implements Runnable {
 		return id;
 	}
 
-	public abstract int getCores();
+	public abstract Integer getLoad();
+
+	public void executeOracul(String dir, String command) {
+		try {
+			Thread.sleep(15000);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		 //ProcessBuilder builder = new ProcessBuilder(command);
+		// builder.directory(new File(dir));
+		// Process start = builder.start();
+		// start.waitFor();
+		LOGGER.debug("\nOracul is calculating with task#" + id + " parameters: [DIR= " + dir + ", COMMAND=" + command
+				+ "]\n");
+	}
 
 }

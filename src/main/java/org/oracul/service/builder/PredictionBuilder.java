@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
+import org.oracul.service.dto.Prediction2D;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class PredictionBuilder<T> implements Builder<T> {
+public abstract class PredictionBuilder {
 
 	private int uDimension;
 	private int vDimension;
 
 	public PredictionBuilder(int uDimension, int vDimension) {
-		super();
 		this.uDimension = uDimension;
 		this.vDimension = vDimension;
 	}
@@ -27,6 +27,8 @@ public abstract class PredictionBuilder<T> implements Builder<T> {
 			throw new RuntimeException("can't parse file " + file.getName(), e);
 		}
 	}
+	
+	public abstract Object  buildPrediction(Long id);
 
 	public void setuDimension(int uDimension) {
 		this.uDimension = uDimension;

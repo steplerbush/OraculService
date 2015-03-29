@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PredictionBuilder2D extends PredictionBuilder<Prediction2D> {
+public class PredictionBuilder2D extends PredictionBuilder {
 
 	@Value("${oracul.singleton-results.u}")
 	private String singletonUpath;
@@ -21,7 +21,6 @@ public class PredictionBuilder2D extends PredictionBuilder<Prediction2D> {
 		super(uDimension, vDimension);
 	}
 
-	@Override
 	public Prediction2D buildPrediction(Long id) {
 		File uValuesFile = new File(singletonUpath);
 		File vValuesFile = new File(singletonVpath);

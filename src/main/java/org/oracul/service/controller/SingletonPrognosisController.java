@@ -1,11 +1,12 @@
 package org.oracul.service.controller;
 
+import org.oracul.service.builder.PredictionBuilder2D;
+import org.oracul.service.builder.PredictionBuilder3D;
 import org.oracul.service.dto.PredictionStatus;
 import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.util.PredictionQueue;
-import org.oracul.service.util.PredictionResult;
 import org.oracul.service.util.PredictionResultStore;
-import org.oracul.service.util.StatusPredictionHolder;
+import org.oracul.service.util.PredictionStatusHolder;
 import org.oracul.service.worker.PredictionTask;
 import org.oracul.service.worker.PredictionTask2D;
 import org.oracul.service.worker.PredictionTask3D;
@@ -22,47 +23,54 @@ import org.springframework.web.bind.annotation.RestController;
 public class SingletonPrognosisController {
 
 	@Autowired
-	private PredictionQueue<PredictionTask> queue;
+	private PredictionQueue queue;
 
 	@Autowired
 	private PredictionExecutor executor;
 
 	@Autowired
-	private PredictionResultStore result;
+	private PredictionResultStore store;
 
 	@Autowired
-	private StatusPredictionHolder statusHolder;
+	private PredictionStatusHolder statusHolder;
+
+	@Autowired
+	private PredictionBuilder2D builder2D;
+	
+	@Autowired
+	private PredictionBuilder3D builder3D;
 
 	@RequestMapping(value = "/order2d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Object order2dPrediction() throws InterruptedException {
 		PredictionTask task = new PredictionTask2D();
-        return orderPrediction(task);
+		return orderPrediction(task);
 	}
 
-    @RequestMapping(value = "/order3d", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public Object order3dPrediction() throws InterruptedException {
-        PredictionTask task = new PredictionTask3D();
-        return orderPrediction(task);
-    }
+	@RequestMapping(value = "/order3d", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Object order3dPrediction() throws InterruptedException {
+		PredictionTask task = new PredictionTask3D();
+		task.setBuilder(builder2D);
+		return orderPrediction(task);
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Object getPrediction(@PathVariable("id") Long id) {
-		PredictionResult prediction;
-		if ((prediction = result.getResult(id)) != null) {
-			return prediction.getResult();
+		Object prediction;
+		if ((prediction = store.getResult(id)) != null) {
+			return prediction;
 		} else {
 			return statusHolder.checkStatus(id);
 		}
 	}
 
-    public Object orderPrediction(PredictionTask task) throws InterruptedException {
-        queue.addTask(task);
-        statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
-        if (executor.getState() == Thread.State.WAITING) {
-            executor.resumeExecutor();
-        }
-        return "localhost:8080/OraculService/prediction/" + task.getId();
-    }
+	public Object orderPrediction(PredictionTask task) throws InterruptedException {
+		queue.addTask(task);
+		statusHolder.putStatus(task.getId(), PredictionStatus.IN_ORDER);
+		if (executor.getState() == Thread.State.WAITING) {
+			executor.resumeExecutor();
+		}
+		return "localhost:8080/OraculService/prediction/" + task.getId();
+	}
 }

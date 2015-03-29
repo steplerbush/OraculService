@@ -3,49 +3,35 @@ package org.oracul.service.executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.oracul.service.worker.PredictionTask;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PredictionExecutorService {
+public class PredictionExecutorPool {
 
 	private ExecutorService service;
-	private boolean started;
 
-	@Value("${service.load}")
-	private Integer load;
+	@Value("${service.pool.size}")
+	private Integer poolSize;
 
-	public void startService() {
+	public void initService() {
 		if (service == null || service.isShutdown() || service.isTerminated()) {
-			initService();
+			service = Executors.newFixedThreadPool(poolSize);
 		}
 	}
 
-	public void executePrediction(Runnable task) {
+	public void executePrediction(PredictionTask task) {
 		service.submit(task);
-	}
-
-	private void initService() {
-		service = Executors.newFixedThreadPool(load);
-		started = true;
 	}
 
 	public void stopService() {
 		if (service != null || !service.isShutdown() || !service.isTerminated()) {
 			service.shutdown();
-			started = false;
 		}
 	}
 
-	public boolean isStarted() {
-		return started;
-	}
-
-	public void setStarted(boolean started) {
-		this.started = started;
-	}
-
-	public Integer getLoad() {
-		return load;
+	public Integer getPoolSize() {
+		return poolSize;
 	}
 }

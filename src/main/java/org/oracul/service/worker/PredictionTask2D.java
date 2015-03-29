@@ -1,36 +1,30 @@
 package org.oracul.service.worker;
 
-import java.io.IOException;
-
-import org.oracul.service.dto.PredictionStatus;
-import org.oracul.service.util.PredictionResult;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.log4j.Logger;
+import org.oracul.service.builder.PredictionBuilder2D;
+import org.oracul.service.util.PredictionQueue;
+import org.oracul.service.util.PredictionStatusHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class PredictionTask2D extends PredictionTask {
 
-	@Value("${2d.load}")
-	private int core;
+	int core = 1;
 
-	@Value("${oracul.execute.dir.2d}")
-	private String executeOraculDir;
-	@Value("${oracul.execute.command.2d}")
-	private String executeOraculCommand;
-
+	@Autowired
+	private PredictionStatusHolder statusHolder;
+	
 	@Override
 	public void run() {
-		executor.load(core);
-		statusHolder.putStatus(getId(), PredictionStatus.PENDING);
-		try {
-			calculator.executeOracul(executeOraculDir, executeOraculCommand + " " + getId());
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		PredictionResult result = new PredictionResult();
-		result.setResult(builder.buildPrediction(getId()));
-		store.putResult(getId(), result);
-		statusHolder.removeStatus(getId());
+
+		executeOracul("dir2d", "com2d");
+		System.out.println("store is null" + (store == null) );
+		store.putResult(getId(), null);
+
+		//statusHolder.removeStatus(getId());
 		executor.unload(core);
 	}
 
-	public  int getCores(){return core;}
+	public Integer getLoad() {
+		return 1;
+	}
 }
