@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
-import org.oracul.service.exception.QueueOverflowException;
-import org.oracul.service.worker.PredictionTask;
+import org.oracul.service.util.exception.QueueOverflowException;
+import org.oracul.service.task.PredictionTask;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class PredictionQueue {
 
 	@PostConstruct
 	private void initQueue() {
-		queue = new LinkedBlockingQueue<PredictionTask>(queueSize);
+		queue = new LinkedBlockingQueue<>(queueSize);
 		LOGGER.debug("Queue is created with size: " + queueSize);
 	}
 
@@ -47,11 +47,15 @@ public class PredictionQueue {
 		PredictionTask task = queue.poll();
 		LOGGER.debug("Queue size: " + queue.size());
 		return task;
-
 	}
 
-	public int getNextLoad() {
-		return (queue.peek() != null) ? queue.peek().getLoad() : 0;
+	public Integer getNextLoad() {
+		if (queue.peek() == null) {
+			LOGGER.debug("getNextLoad() - TASK is null");
+			return 0;
+		}
+		LOGGER.debug("TASK id = " + queue.peek().getId());
+		return queue.peek().getCores();
 	}
 
 }

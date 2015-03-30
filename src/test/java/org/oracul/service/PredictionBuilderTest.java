@@ -1,11 +1,6 @@
 package org.oracul.service;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.oracul.service.builder.PredictionBuilder2D;
-import org.oracul.service.dto.Prediction2D;
-
-import java.io.File;
 
 public class PredictionBuilderTest {
 

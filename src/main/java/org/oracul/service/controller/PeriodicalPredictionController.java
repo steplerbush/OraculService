@@ -6,7 +6,7 @@
 //
 //import org.apache.commons.lang3.Validate;
 //import org.apache.log4j.Logger;
-//import org.oracul.service.builder.PredictionBuilder2D;
+//import PredictionBuilder2D;
 //import org.oracul.service.dto.PeriodicalPrediction;
 //import org.oracul.service.dto.Prediction2D;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@
 //							+ " of " + predictionCount);
 //				}
 //				int predictionTime = i * predictionTimeStep;
-//				executeOracul(executeOraculDir, executeOraculCommand,
+//				executePredictionCalculation(executeOraculDir, executeOraculCommand,
 //						predictionTime);
 //				predictions.add(builder.build2DPrediction(new File(
 //						singletonUpath), new File(singletonVpath)));
@@ -82,7 +82,7 @@
 //
 //	}
 //
-//	private void executeOracul(String dir, String command, int predictionTime)
+//	private void executePredictionCalculation(String dir, String command, int predictionTime)
 //			throws Exception {
 //		ProcessBuilder builder = new ProcessBuilder(command,
 //				String.valueOf(predictionTime));

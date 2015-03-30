@@ -1,48 +1,30 @@
 package org.oracul.service.util;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
-@Component
+
 public class PropertyHolder {
 
-	@Value("${2d.load}")
-	private Integer core2d;
-	@Value("${oracul.execute.dir.2d}")
-	private String executeOraculDir2D;
-	@Value("${oracul.execute.command.2d}")
-	private String executeOraculCommand2D;
+	public static final String core2d = "cores.2d";
+	public static final String core3d = "cores.3d";
+	public static final String executeOraculDir2D = "oracul.execute.dir.2d";
+	public static final String executeOraculCommand2D = "oracul.execute.command.2d";
+	public static final String executeOraculDir3D = "oracul.execute.dir.3d";
+	public static final String executeOraculCommand3D = "oracul.execute.command.3d";
+	public static final String propFileName = "/resources/oracul.properties";
 
-	@Value("${3d.load}")
-	private Integer core3d;
-
-	@Value("${oracul.execute.dir.3d}")
-	private String executeOraculDir3D;
-	@Value("${oracul.execute.command.3d}")
-	private String executeOraculCommand3D;
-
-	public Integer getCore2d() {
-		return core2d;
+	public String getProperty(String path) {
+		Properties properties = new Properties();
+		try {
+			InputStream in = this.getClass().getResourceAsStream("/oracul.properties");
+			properties.load(in);
+		} catch (IOException e) {
+			return "";
+		}
+		return properties.getProperty(path);
 	}
-
-	public String getExecuteOraculDir2D() {
-		return executeOraculDir2D;
-	}
-
-	public String getExecuteOraculCommand2D() {
-		return executeOraculCommand2D;
-	}
-
-	public Integer getCore3d() {
-		return core3d;
-	}
-
-	public String getExecuteOraculDir3D() {
-		return executeOraculDir3D;
-	}
-
-	public String getExecuteOraculCommand3D() {
-		return executeOraculCommand3D;
-	}
-
 }
