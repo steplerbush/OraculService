@@ -30,6 +30,9 @@ public class IntegrationFacade {
     @Autowired
     private PredictionsResultsHolder resultsHolder;
 
+    @Autowired
+    private PropertyHolder property;
+
     public PredictionsStatusesHolder getStatusHolder() {
         return statusHolder;
     }
@@ -60,6 +63,10 @@ public class IntegrationFacade {
 
     public void releaseCores(Integer cores) {
         executor.releaseCores(cores);
+    }
+
+    public PropertyHolder getProperty() {
+        return property;
     }
 
 }

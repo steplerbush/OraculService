@@ -16,8 +16,8 @@ public class PredictionTask2D extends PredictionTask {
 
     @Override
     protected void executePredictionCalculation() {
-        String command = propertyHolder.getProperty(PropertyHolder.executeOraculCommand2D);
-        String dir = propertyHolder.getProperty(PropertyHolder.executeOraculDir2D);
+        String command = facade.getProperty().getExecuteOraculCommand2D();
+        String dir = facade.getProperty().getExecuteOraculDir2D();
         try {
             LOGGER.debug("Execute calculation 2D task: test sleep for 10 sec");
             Thread.sleep(10000);
@@ -34,7 +34,7 @@ public class PredictionTask2D extends PredictionTask {
 
     @Override
     public Integer getCores() {
-        return Integer.parseInt(propertyHolder.getProperty(PropertyHolder.core2d));
+        return facade.getProperty().getCore2d();
     }
 
     @Override
