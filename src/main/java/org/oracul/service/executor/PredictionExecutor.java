@@ -37,10 +37,12 @@ public class PredictionExecutor extends Thread {
     }
 
     public void loadCores(Integer coresCount) {
+        LOGGER.debug(coresCount + " cores are loaded");
         currentLoad.addAndGet(coresCount);
     }
 
     public void releaseCores(Integer coresCount) {
+        LOGGER.debug(coresCount + " cores are released");
         currentLoad.addAndGet(-coresCount);
     }
 
@@ -69,7 +71,11 @@ public class PredictionExecutor extends Thread {
                 loadCores(task.getCores());
                 predictionPool.executePrediction(task);
             } else {
-                LOGGER.debug("WAITING. SYSTEM IS OVERLOAD.");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                }
+                LOGGER.debug("WAITING. SYSTEM  OVERLOADED.");
             }
         }
     }

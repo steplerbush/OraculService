@@ -4,6 +4,7 @@ import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.util.PredictionsResultsHolder;
 import org.oracul.service.util.PredictionsStatusesHolder;
 import org.oracul.service.task.PredictionTaskCreator;
+import org.oracul.service.task.PredictionTaskCreator.PredictionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

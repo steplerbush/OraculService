@@ -11,10 +11,6 @@ public class PredictionsStatusesHolder {
 	private static final Logger LOGGER = Logger.getLogger(PredictionsStatusesHolder.class);
 	private ConcurrentHashMap<Long, PredictionStatus> statuses = new ConcurrentHashMap<>();
 
-	public PredictionsStatusesHolder() {
-		LOGGER.debug("I am created");
-	}
-
 	public PredictionStatus checkStatus(Long id) {
 		LOGGER.debug("Checking for status with id=" + id);
 		return statuses.get(id);

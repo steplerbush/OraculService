@@ -25,7 +25,7 @@ public class PredictionExecutorPool {
 	}
 
 	public void executePrediction(PredictionTask task) {
-		LOGGER.debug("PredictionExecutorPool: submitting task #" + task.getId());
+		LOGGER.debug("PredictionExecutorPool: executing task #" + task.getId());
 		service.execute(task);
 	}
 

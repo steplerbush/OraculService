@@ -26,7 +26,7 @@ public class PredictionBuilder3D extends PredictionBuilder {
 	}
 
 	public Prediction3D buildPrediction(Long id) {
-		File[] files = new File(pathToFiles).listFiles();
+		File[] files = new File(pathToFiles + "/" + id + "/").listFiles();
 		double[] outputs = null;
 		Map<Integer, List<double[]>> data = new HashMap<Integer, List<double[]>>();
 		for (File file : files) {

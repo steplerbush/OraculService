@@ -21,8 +21,8 @@ public class PredictionTask3D extends PredictionTask {
         try {
             LOGGER.debug("Execute calculation 3D task: test sleep for 10 sec");
             Thread.sleep(10000);
-            LOGGER.debug("Starting prediction calculation for 3D task #" + id
-                    + " parameters: [DIR= " + dir + ", COMMAND=" + command + "]");
+            LOGGER.debug("Starting prediction calculation for 3D task #" + id + " parameters: [DIR= " + dir
+                    + ", COMMAND=" + command + "]");
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.directory(new File(dir));
             Process start = processBuilder.start();
@@ -40,6 +40,7 @@ public class PredictionTask3D extends PredictionTask {
     @Override
     public void run() {
         executePredictionCalculation();
+        LOGGER.debug("Execute calculation 3D task#" + getId() + ": test sleep for 10 sec");
         facade.putResult(getId(), facade.getBuilder3D().buildPrediction(getId()));
         facade.removeStatus(getId());
         facade.releaseCores(getCores());

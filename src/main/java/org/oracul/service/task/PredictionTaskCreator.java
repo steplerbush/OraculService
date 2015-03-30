@@ -27,6 +27,7 @@ public class PredictionTaskCreator {
             }
             case TASK_3D: {
                 predictionTask = new PredictionTask3D(params, facade);
+                break;
             }
             default: {
                 predictionTask = null;

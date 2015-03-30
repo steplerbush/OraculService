@@ -21,12 +21,12 @@ public class PredictionTask2D extends PredictionTask {
         try {
             LOGGER.debug("Execute calculation 2D task: test sleep for 10 sec");
             Thread.sleep(10000);
-            LOGGER.debug("Starting prediction calculation for 2D task #" + id
-                    + " parameters: [DIR= " + dir + ", COMMAND=" + command + "]");
-            ProcessBuilder processBuilder = new ProcessBuilder(command);
-            processBuilder.directory(new File(dir));
-            Process start = processBuilder.start();
-            start.waitFor();
+            LOGGER.debug("Starting prediction calculation for 2D task #" + id + " parameters: [DIR= " + dir
+                    + ", COMMAND=" + command + "]");
+            // ProcessBuilder processBuilder = new ProcessBuilder(command);
+            // processBuilder.directory(new File(dir));
+            // Process start = processBuilder.start();
+            // start.waitFor();
         } catch (Exception e) {
             LOGGER.debug("ERROR while executing prediction calculation in 2D task");
         }
@@ -40,6 +40,8 @@ public class PredictionTask2D extends PredictionTask {
     @Override
     public void run() {
         executePredictionCalculation();
+        LOGGER.debug("Execute calculation 2D task#" + getId() + ": test sleep for 10 sec");
+        LOGGER.debug("For testing getting builder" + facade.getBuilder2D());
         facade.putResult(getId(), facade.getBuilder2D().buildPrediction(getId()));
         facade.removeStatus(getId());
         facade.releaseCores(getCores());

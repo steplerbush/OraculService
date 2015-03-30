@@ -16,6 +16,7 @@ public abstract class PredictionTask implements Runnable {
     public PredictionTask(String[] parameters, IntegrationFacade facade) {
         this.id = counter++;
         this.parameters = parameters;
+        this.facade = facade;
         this.propertyHolder = new PropertyHolder();
     }
 
