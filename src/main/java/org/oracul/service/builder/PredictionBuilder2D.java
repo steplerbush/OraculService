@@ -1,11 +1,7 @@
 package org.oracul.service.builder;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.oracul.service.dto.Prediction2D;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PredictionBuilder2D extends PredictionBuilder {
-	private static final Logger LOGGER = Logger.getLogger(PredictionBuilder2D.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(PredictionBuilder2D.class);
 
 	@Value("${oracul.singleton-results.u}")
 	private String singletonUpath;
@@ -23,7 +20,8 @@ public class PredictionBuilder2D extends PredictionBuilder {
 	private String singletonVpath;
 
 	@Autowired
-	public PredictionBuilder2D(@Value("${2d.size.u}") Integer uDimension, @Value("${2d.size.v}") Integer vDimension) {
+	public PredictionBuilder2D(@Value("${2d.size.u}") Integer uDimension,
+			@Value("${2d.size.v}") Integer vDimension) {
 		super(uDimension, vDimension);
 	}
 
@@ -31,11 +29,10 @@ public class PredictionBuilder2D extends PredictionBuilder {
 		LOGGER.debug("Prediction2D task#" + id + " files parsing.");
 		File uValuesFile = new File(singletonUpath + "/" + id + "/" + "u.out");
 		File vValuesFile = new File(singletonVpath + "/" + id + "/" + "u.out");
-		List<Double> uList = new ArrayList<Double>();
-		uList.addAll(Arrays.asList(ArrayUtils.toObject(parseDoubles(uValuesFile))));
-		List<Double> vList = new ArrayList<Double>();
-		vList.addAll(Arrays.asList(ArrayUtils.toObject(parseDoubles(vValuesFile))));
-		Prediction2D prediction2d = new Prediction2D(uList, uList, getuDimension(), getvDimension());
+		double[] u = parseDoubles(uValuesFile);
+		double[] v = parseDoubles(vValuesFile);
+		Prediction2D prediction2d = new Prediction2D(u, v, getuDimension(),
+				getvDimension());
 		prediction2d.setId(id);
 		return prediction2d;
 	}

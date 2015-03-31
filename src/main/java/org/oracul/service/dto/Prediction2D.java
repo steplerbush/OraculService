@@ -18,18 +18,12 @@ import javax.persistence.Table;
 public class Prediction2D {
 
 	@Id
-	@Column(name = "PREDICTION_ID", nullable = false)
 	private Long id;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "prediction2d_u", joinColumns = @JoinColumn(name = "prediction2d_id"))
 	@Column(name = "u_value")
-	private List<Double> u = new ArrayList<>();
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "prediction2d_v", joinColumns = @JoinColumn(name = "prediction2d_id"))
+	private double[] u;
 	@Column(name = "v_value")
-	private List<Double> v = new ArrayList<>();
+	private double[] v;
 
 	private int gridU;
 	private int gridV;
@@ -37,27 +31,11 @@ public class Prediction2D {
 	public Prediction2D() {
 	}
 
-	public Prediction2D(List<Double> u, List<Double> v, int gridU, int gridV) {
+	public Prediction2D(double[] u, double[] v, int gridU, int gridV) {
 		this.gridU = gridU;
 		this.gridV = gridV;
 		this.u = u;
 		this.v = v;
-	}
-
-	public int getGridU() {
-		return gridU;
-	}
-
-	public int getGridV() {
-		return gridV;
-	}
-
-	public List<Double> getU() {
-		return u;
-	}
-
-	public List<Double> getV() {
-		return v;
 	}
 
 	public Long getId() {
@@ -67,4 +45,37 @@ public class Prediction2D {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public double[] getU() {
+		return u;
+	}
+
+	public void setU(double[] u) {
+		this.u = u;
+	}
+
+	public double[] getV() {
+		return v;
+	}
+
+	public void setV(double[] v) {
+		this.v = v;
+	}
+
+	public int getGridU() {
+		return gridU;
+	}
+
+	public void setGridU(int gridU) {
+		this.gridU = gridU;
+	}
+
+	public int getGridV() {
+		return gridV;
+	}
+
+	public void setGridV(int gridV) {
+		this.gridV = gridV;
+	}
+
 }

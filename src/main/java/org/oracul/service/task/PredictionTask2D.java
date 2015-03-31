@@ -42,7 +42,7 @@ public class PredictionTask2D extends PredictionTask {
 		LOGGER.debug("For testing getting builder" + facade.getBuilder2D());
 		Prediction2D pred = facade.getBuilder2D().buildPrediction(getId());
 		facade.putResult(getId(), pred);
-		facade.getPredictionRepository().savePrediction(pred);
+		facade.getPrediction2dRepository().savePrediction(pred);
 		facade.removeStatus(getId());
 		facade.releaseCores(getCores());
 	}

@@ -32,20 +32,20 @@ public class SingletonPrognosisController {
 	@Autowired
 	private PredictionsStatusesHolder statusHolder;
 
-	@RequestMapping(value = "/order2d", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/2d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Object orderPrediction2D() throws InterruptedException {
 		Long taskID = predictionTaskCreator.createPrediction(PredictionTaskCreator.PredictionType.TASK_2D,
 				new String[] { "some params for 2d" });
-		return "localhost:8080/OraculService/prediction/" + taskID;
+		return "localhost:8080/OraculService/prediction/2d/" + taskID;
 	}
 
-	@RequestMapping(value = "/order3d", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/3d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Object orderPrediction3D() throws InterruptedException {
 		Long taskID = predictionTaskCreator.createPrediction(PredictionTaskCreator.PredictionType.TASK_3D,
 				new String[] { "some params for 3d" });
-		return "localhost:8080/OraculService/prediction/" + taskID;
+		return "localhost:8080/OraculService/prediction/3d/" + taskID;
 	}
 
 	@RequestMapping(value = "/2d/{id}", method = RequestMethod.GET)

@@ -4,6 +4,7 @@ import org.oracul.service.builder.PredictionBuilder2D;
 import org.oracul.service.builder.PredictionBuilder3D;
 import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.service.Prediction2DService;
+import org.oracul.service.service.Prediction3DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +36,11 @@ public class IntegrationFacade {
     private PropertyHolder property;
     
     @Autowired
-    private Prediction2DService predictionRepository;
+    private Prediction2DService prediction2dRepository; 
+    
+    @Autowired
+    private Prediction3DService prediction3dRepository; 
 
-    public Prediction2DService getPredictionRepository() {
-		return predictionRepository;
-	}
 
 	public PredictionsStatusesHolder getStatusHolder() {
         return statusHolder;
@@ -76,5 +77,14 @@ public class IntegrationFacade {
     public PropertyHolder getProperty() {
         return property;
     }
+
+	public Prediction3DService getPrediction3dRepository() {
+		return prediction3dRepository;
+	}
+
+	public Prediction2DService getPrediction2dRepository() {
+		return prediction2dRepository;
+	}
+
 
 }

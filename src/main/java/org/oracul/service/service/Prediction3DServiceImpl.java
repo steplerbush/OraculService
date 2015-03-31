@@ -20,7 +20,7 @@ public class Prediction3DServiceImpl implements Prediction3DService {
 	@Override
 	@Transactional
 	public Prediction3D findById(Long id) {
-		LOGGER.debug("Trying get prediction2d#" + id + " from BD");
+		LOGGER.debug("Trying get prediction3d #" + id + " from BD");
 		return prediction3dRepository.findById(id);
 	}
 
@@ -28,7 +28,7 @@ public class Prediction3DServiceImpl implements Prediction3DService {
 	@Transactional
 	public Prediction3D savePrediction(Prediction3D prediction) {
 		Prediction3D prediction2d = prediction3dRepository.save(prediction);
-		LOGGER.debug("Prediction2D#" + prediction.getId() + " has been saved to BD");
+		LOGGER.debug("Prediction3D #" + prediction.getId() + " has been saved to BD");
 		return prediction2d;
 	}
 

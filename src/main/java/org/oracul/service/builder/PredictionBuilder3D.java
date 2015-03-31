@@ -2,12 +2,11 @@ package org.oracul.service.builder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.oracul.service.dto.Level;
 import org.oracul.service.dto.Prediction3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,30 +22,46 @@ public class PredictionBuilder3D extends PredictionBuilder {
 	private String typeFilter;
 
 	@Autowired
-	public PredictionBuilder3D(@Value("${3d.size.u}") Integer u3Dimension, @Value("${3d.size.v}") Integer v3Dimension) {
+	public PredictionBuilder3D(@Value("${3d.size.u}") Integer u3Dimension,
+			@Value("${3d.size.v}") Integer v3Dimension) {
 		super(u3Dimension, v3Dimension);
 	}
 
 	public Prediction3D buildPrediction(Long id) {
 		File[] files = new File(pathToFiles + "/" + id + "/").listFiles();
-		List<Double> outputs = new ArrayList<Double>();
-		Map<Integer, List<List<Double>>> data = new HashMap<Integer, List<List<Double>>>();
+
+		Map<Integer, Level> data = new HashMap<>();
 		for (File file : files) {
 			String[] fileName = file.getName().split("\\.");
-			String dataType = String.valueOf(fileName[0].charAt(fileName[0].length() - 1));
+			String dataType = String.valueOf(fileName[0].charAt(fileName[0]
+					.length() - 1));
 			if (typeFilter.contains(dataType)) {
-				Integer level = Integer.parseInt(fileName[0].substring(0, fileName[0].length() - 1));
-				List<List<Double>> temp = null;
+				Integer level = Integer.parseInt(fileName[0].substring(0,
+						fileName[0].length() - 1));
+				Level temp = null;
 				if ((temp = data.get(level)) == null) {
-					data.put(level, new ArrayList<List<Double>>());
+					data.put(level, new Level());
 					temp = data.get(level);
+					temp.setLevel(level);
 				}
-				outputs.addAll(Arrays.asList(ArrayUtils.toObject(parseDoubles(file))));
-				temp.add(outputs);
+				switch (dataType) {
+				case "u":
+					temp.setU(parseDoubles(file));
+					break;
+				case "t":
+					temp.setT(parseDoubles(file));
+					break;
+				case "v":
+					temp.setV(parseDoubles(file));
+					break;
+				}
 				data.put(level, temp);
 			}
 		}
-		Prediction3D prediction3d = new Prediction3D(data, getuDimension(), getvDimension());
+		List<Level> levels = new ArrayList<>(data.values());
+		Prediction3D prediction3d = new Prediction3D(levels, getuDimension(),
+				getvDimension());
+		//System.out.println(levels.get(0).g);
 		prediction3d.setId(id);
 		return prediction3d;
 	}

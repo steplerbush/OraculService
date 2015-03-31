@@ -1,57 +1,35 @@
 package org.oracul.service.dto;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PREDICTION_3D")
+@Table(name = "PREDICTION3D")
 public class Prediction3D {
 	@Id
-	@Column(name = "PREDICTION_ID", nullable = false)
+	@Column(name = "PREDICTION_ID")
 	private Long id;
 
-	@JoinTable(name = "level_data", joinColumns = @JoinColumn(name = "prediction_3d_id"))
-	@Column(name = "data")
-	@MapKeyColumn(name = "level")
-	private Map<Integer, Level> levelData = new HashMap<>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prediction3d", cascade = CascadeType.ALL)
+	private List<Level> levels;
 
 	private int gridU;
 	private int gridV;
 
-	public Map<Integer, Level> getLevelData() {
-		return levelData;
-	}
-
-	public Prediction3D(Map<Integer, List<List<Double>>> data, int gridU, int gridV) {
+	public Prediction3D(List<Level> levels, int gridU, int gridV) {
 		this.gridU = gridU;
 		this.gridV = gridV;
-		// this.data = data;
+		this.levels = levels;
 	}
 
 	public Prediction3D() {
-	}
-
-	// public Map<Integer, List<List<Double>>> getData() {
-	// return data;
-	// }
-
-	public int getGridU() {
-		return gridU;
-	}
-
-	public int getGridV() {
-		return gridV;
 	}
 
 	public Long getId() {
@@ -60,6 +38,30 @@ public class Prediction3D {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Level> getLevels() {
+		return levels;
+	}
+
+	public void setLevels(List<Level> levels) {
+		this.levels = levels;
+	}
+
+	public int getGridU() {
+		return gridU;
+	}
+
+	public void setGridU(int gridU) {
+		this.gridU = gridU;
+	}
+
+	public int getGridV() {
+		return gridV;
+	}
+
+	public void setGridV(int gridV) {
+		this.gridV = gridV;
 	}
 
 }
