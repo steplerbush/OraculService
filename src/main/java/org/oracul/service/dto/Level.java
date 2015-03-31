@@ -1,7 +1,5 @@
 package org.oracul.service.dto;
 
-import java.util.Arrays;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Level {
@@ -18,7 +18,7 @@ public class Level {
 	private Long id;
 
 	private Integer lvl;
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PREDICTION_ID")
 	private Prediction3D prediction3d;

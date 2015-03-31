@@ -63,7 +63,7 @@ public class SingletonPrognosisController {
 	public Object getPrediction3D(@PathVariable("id") Long id) {
 		Prediction3D prediction = prediction3dRepository.findById(id);
 		if (prediction != null) {
-			return prediction.toString();
+			return prediction;
 		} else {
 			return statusHolder.checkStatus(id);
 		}
