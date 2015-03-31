@@ -2,10 +2,12 @@ package org.oracul.service.builder;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.oracul.service.dto.Prediction3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,24 +29,26 @@ public class PredictionBuilder3D extends PredictionBuilder {
 
 	public Prediction3D buildPrediction(Long id) {
 		File[] files = new File(pathToFiles + "/" + id + "/").listFiles();
-		double[] outputs = null;
-		Map<Integer, List<double[]>> data = new HashMap<Integer, List<double[]>>();
+		List<Double> outputs = new ArrayList<Double>();
+		Map<Integer, List<List<Double>>> data = new HashMap<Integer, List<List<Double>>>();
 		for (File file : files) {
 			String[] fileName = file.getName().split("\\.");
 			String dataType = String.valueOf(fileName[0].charAt(fileName[0].length() - 1));
 			if (typeFilter.contains(dataType)) {
 				Integer level = Integer.parseInt(fileName[0].substring(0, fileName[0].length() - 1));
-				List<double[]> temp = null;
+				List<List<Double>> temp = null;
 				if ((temp = data.get(level)) == null) {
-					data.put(level, new ArrayList<double[]>());
+					data.put(level, new ArrayList<List<Double>>());
 					temp = data.get(level);
 				}
-				outputs = parseDoubles(file);
+				outputs.addAll(Arrays.asList(ArrayUtils.toObject(parseDoubles(file))));
 				temp.add(outputs);
 				data.put(level, temp);
 			}
 		}
-		return new Prediction3D(data, getuDimension(), getvDimension());
+		Prediction3D prediction3d = new Prediction3D(data, getuDimension(), getvDimension());
+		prediction3d.setId(id);
+		return prediction3d;
 	}
 
 	public String getPath() {

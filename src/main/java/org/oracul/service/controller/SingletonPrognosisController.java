@@ -1,10 +1,10 @@
 package org.oracul.service.controller;
 
 import org.oracul.service.executor.PredictionExecutor;
-import org.oracul.service.util.PredictionsResultsHolder;
-import org.oracul.service.util.PredictionsStatusesHolder;
+import org.oracul.service.service.Prediction2DService;
+import org.oracul.service.service.Prediction3DService;
 import org.oracul.service.task.PredictionTaskCreator;
-import org.oracul.service.task.PredictionTaskCreator.PredictionType;
+import org.oracul.service.util.PredictionsStatusesHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,30 +24,43 @@ public class SingletonPrognosisController {
 	private PredictionExecutor executor;
 
 	@Autowired
-	private PredictionsResultsHolder store;
+	private Prediction2DService prediction2dRepository;
+
+	@Autowired
+	private Prediction3DService prediction3dRepository;
 
 	@Autowired
 	private PredictionsStatusesHolder statusHolder;
 
 	@RequestMapping(value = "/order2d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Object order2dPrediction() throws InterruptedException {
+	public Object orderPrediction2D() throws InterruptedException {
 		Long taskID = predictionTaskCreator.createPrediction(PredictionTaskCreator.PredictionType.TASK_2D,
-				new String[]{"some params for 2d"});
+				new String[] { "some params for 2d" });
 		return "localhost:8080/OraculService/prediction/" + taskID;
 	}
 
 	@RequestMapping(value = "/order3d", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Object order3dPrediction() throws InterruptedException {
+	public Object orderPrediction3D() throws InterruptedException {
 		Long taskID = predictionTaskCreator.createPrediction(PredictionTaskCreator.PredictionType.TASK_3D,
-				new String[]{"some params for 3d"});
+				new String[] { "some params for 3d" });
 		return "localhost:8080/OraculService/prediction/" + taskID;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Object getPrediction(@PathVariable("id") Long id) {
-		Object prediction = store.getResult(id);
+	@RequestMapping(value = "/2d/{id}", method = RequestMethod.GET)
+	public Object getPrediction2D(@PathVariable("id") Long id) {
+		Object prediction = prediction2dRepository.findById(id);
+		if (prediction != null) {
+			return prediction;
+		} else {
+			return statusHolder.checkStatus(id);
+		}
+	}
+
+	@RequestMapping(value = "/3d/{id}", method = RequestMethod.GET)
+	public Object getPrediction3D(@PathVariable("id") Long id) {
+		Object prediction = prediction3dRepository.findById(id);
 		if (prediction != null) {
 			return prediction;
 		} else {
