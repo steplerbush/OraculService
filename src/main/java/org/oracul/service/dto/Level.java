@@ -1,12 +1,13 @@
 package org.oracul.service.dto;
 
+import java.util.Arrays;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -16,7 +17,7 @@ public class Level {
 	@Column(name = "level_id")
 	private Long id;
 
-	private Integer level;
+	private Integer lvl;
 
 	@ManyToOne
 	@JoinColumn(name = "PREDICTION_ID")
@@ -31,12 +32,15 @@ public class Level {
 	@Column(name = "t_value")
 	private double[] t;
 
-	public Integer getLevel() {
-		return level;
+	public Level() {
 	}
 
-	public void setLevel(Integer level) {
-		this.level = level;
+	public Integer getLvl() {
+		return lvl;
+	}
+
+	public void setLvl(Integer lvl) {
+		this.lvl = lvl;
 	}
 
 	public double[] getV() {
@@ -78,5 +82,4 @@ public class Level {
 	public void setPrediction3d(Prediction3D prediction3d) {
 		this.prediction3d = prediction3d;
 	}
-
 }

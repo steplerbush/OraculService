@@ -17,7 +17,7 @@ public class Prediction3D {
 	@Column(name = "PREDICTION_ID")
 	private Long id;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prediction3d", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "prediction3d", cascade={CascadeType.ALL})
 	private List<Level> levels;
 
 	private int gridU;
@@ -63,5 +63,12 @@ public class Prediction3D {
 	public void setGridV(int gridV) {
 		this.gridV = gridV;
 	}
+
+	@Override
+	public String toString() {
+		return "Prediction3D [id=" + id + ", levels=" + levels + ", gridU="
+				+ gridU + ", gridV=" + gridV + "]";
+	}
+	
 
 }

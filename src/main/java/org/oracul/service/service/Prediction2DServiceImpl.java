@@ -20,7 +20,7 @@ public class Prediction2DServiceImpl implements Prediction2DService {
 	@Override
 	@Transactional
 	public Prediction2D findById(Long id) {
-		LOGGER.debug("Trying get prediction2d#" + id + " from BD");
+		LOGGER.debug("Trying get prediction2d#" + id + " from DB");
 		return predictionRepository.findById(id);
 	}
 
@@ -28,7 +28,7 @@ public class Prediction2DServiceImpl implements Prediction2DService {
 	@Transactional
 	public Prediction2D savePrediction(Prediction2D prediction) {
 		Prediction2D prediction2d = predictionRepository.save(prediction);
-		LOGGER.debug("Prediction2D#" + prediction.getId() + " has been saved to BD");
+		LOGGER.debug("Prediction2D#" + prediction.getId() + " has been saved to DB");
 		return prediction2d;
 	}
 

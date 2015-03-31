@@ -1,5 +1,6 @@
 package org.oracul.service.controller;
 
+import org.oracul.service.dto.Prediction3D;
 import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.service.Prediction2DService;
 import org.oracul.service.service.Prediction3DService;
@@ -60,9 +61,9 @@ public class SingletonPrognosisController {
 
 	@RequestMapping(value = "/3d/{id}", method = RequestMethod.GET)
 	public Object getPrediction3D(@PathVariable("id") Long id) {
-		Object prediction = prediction3dRepository.findById(id);
+		Prediction3D prediction = prediction3dRepository.findById(id);
 		if (prediction != null) {
-			return prediction;
+			return prediction.toString();
 		} else {
 			return statusHolder.checkStatus(id);
 		}

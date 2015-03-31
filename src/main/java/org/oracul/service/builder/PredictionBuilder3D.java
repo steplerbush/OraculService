@@ -29,7 +29,10 @@ public class PredictionBuilder3D extends PredictionBuilder {
 
 	public Prediction3D buildPrediction(Long id) {
 		File[] files = new File(pathToFiles + "/" + id + "/").listFiles();
-
+		Prediction3D prediction3d = new Prediction3D();
+		prediction3d.setId(id);
+		prediction3d.setGridU(getuDimension());
+		prediction3d.setGridV(getvDimension());
 		Map<Integer, Level> data = new HashMap<>();
 		for (File file : files) {
 			String[] fileName = file.getName().split("\\.");
@@ -42,7 +45,8 @@ public class PredictionBuilder3D extends PredictionBuilder {
 				if ((temp = data.get(level)) == null) {
 					data.put(level, new Level());
 					temp = data.get(level);
-					temp.setLevel(level);
+					temp.setLvl(level);
+					temp.setPrediction3d(prediction3d);
 				}
 				switch (dataType) {
 				case "u":
@@ -59,10 +63,7 @@ public class PredictionBuilder3D extends PredictionBuilder {
 			}
 		}
 		List<Level> levels = new ArrayList<>(data.values());
-		Prediction3D prediction3d = new Prediction3D(levels, getuDimension(),
-				getvDimension());
-		//System.out.println(levels.get(0).g);
-		prediction3d.setId(id);
+		prediction3d.setLevels(levels);
 		return prediction3d;
 	}
 

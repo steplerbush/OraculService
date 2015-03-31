@@ -1,20 +1,12 @@
 package org.oracul.service.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PREDICTION_2D")
+@Table(name = "PREDICTION2D")
 public class Prediction2D {
 
 	@Id
