@@ -1,5 +1,7 @@
 package org.oracul.service.task;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.oracul.service.dto.Prediction3D;
 import org.oracul.service.util.IntegrationFacade;
@@ -9,8 +11,9 @@ public class PredictionTask3D extends PredictionTask {
 	private static final Logger LOGGER = Logger
 			.getLogger(PredictionTask3D.class);
 
-	public PredictionTask3D(String[] parameters, IntegrationFacade facade) {
-		super(parameters, facade);
+	public PredictionTask3D(Long id, String[] parameters,
+			IntegrationFacade facade) {
+		super(id, parameters, facade);
 	}
 
 	@Override
@@ -23,10 +26,10 @@ public class PredictionTask3D extends PredictionTask {
 			LOGGER.debug("Starting prediction calculation for 3D task #" + id
 					+ " parameters: [DIR= " + dir + ", COMMAND=" + command
 					+ "]");
-			// ProcessBuilder processBuilder = new ProcessBuilder(command);
-			// processBuilder.directory(new File(dir));
-			// Process start = processBuilder.start();
-			// start.waitFor();
+			 ProcessBuilder processBuilder = new ProcessBuilder(command);
+			 processBuilder.directory(new File(dir));
+			 Process start = processBuilder.start();
+			 start.waitFor();
 		} catch (Exception e) {
 			LOGGER.debug("ERROR while executing prediction calculation in 3D task");
 		}

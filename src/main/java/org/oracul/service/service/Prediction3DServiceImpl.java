@@ -32,4 +32,14 @@ public class Prediction3DServiceImpl implements Prediction3DService {
 				+ " has been saved to DB");
 	}
 
+	@Override
+	public Long createPrediction(Prediction3D prediction) {
+		prediction = prediction3dRepository.save(prediction);
+		return prediction.getId();
+	}
+
+	@Override
+	public void deletePrediction(Long id) {
+		prediction3dRepository.delete(id);
+	}
 }

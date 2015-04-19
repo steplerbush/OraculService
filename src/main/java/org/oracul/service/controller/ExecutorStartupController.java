@@ -38,9 +38,9 @@ public class ExecutorStartupController {
 	@ResponseStatus(HttpStatus.OK)
 	public String stopService() {
 		executorPool.stopService();
-		LOGGER.debug("\nPool is stopped\n");
+		LOGGER.debug("Pool is stopped");
 		predictionExecutor.suspendExecutor();
-		LOGGER.debug("\nExecutor is suspended\n");
+		LOGGER.debug("Executor is suspended");
 		return "ORACUL IS STOPPED";
 	}
 }

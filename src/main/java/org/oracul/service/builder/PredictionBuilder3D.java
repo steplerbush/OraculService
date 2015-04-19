@@ -1,13 +1,16 @@
 package org.oracul.service.builder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.oracul.service.dto.Level;
 import org.oracul.service.dto.Prediction3D;
+import org.oracul.service.service.Prediction3DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,25 +25,25 @@ public class PredictionBuilder3D extends PredictionBuilder {
 	private String typeFilter;
 
 	@Autowired
-	public PredictionBuilder3D(@Value("${3d.size.u}") Integer u3Dimension,
-			@Value("${3d.size.v}") Integer v3Dimension) {
+	public PredictionBuilder3D(@Value("${3d.size.u}") Integer u3Dimension, @Value("${3d.size.v}") Integer v3Dimension) {
 		super(u3Dimension, v3Dimension);
 	}
 
+	@Autowired
+	private Prediction3DService prediction3dRepository;
+
 	public Prediction3D buildPrediction(Long id) {
-		File[] files = new File(pathToFiles + "/" + id + "/").listFiles();
-		Prediction3D prediction3d = new Prediction3D();
-		prediction3d.setId(id);
+		File root = new File(pathToFiles + "/" + id + "/");
+		File[] files = root.listFiles();
+		Prediction3D prediction3d = prediction3dRepository.findById(id);
 		prediction3d.setGridU(getuDimension());
 		prediction3d.setGridV(getvDimension());
 		Map<Integer, Level> data = new HashMap<>();
 		for (File file : files) {
 			String[] fileName = file.getName().split("\\.");
-			String dataType = String.valueOf(fileName[0].charAt(fileName[0]
-					.length() - 1));
+			String dataType = String.valueOf(fileName[0].charAt(fileName[0].length() - 1));
 			if (typeFilter.contains(dataType)) {
-				Integer level = Integer.parseInt(fileName[0].substring(0,
-						fileName[0].length() - 1));
+				Integer level = Integer.parseInt(fileName[0].substring(0, fileName[0].length() - 1));
 				Level temp = null;
 				if ((temp = data.get(level)) == null) {
 					data.put(level, new Level());
@@ -61,6 +64,11 @@ public class PredictionBuilder3D extends PredictionBuilder {
 				}
 				data.put(level, temp);
 			}
+		}
+		try {
+			FileUtils.deleteDirectory(root);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		List<Level> levels = new ArrayList<>(data.values());
 		prediction3d.setLevels(levels);

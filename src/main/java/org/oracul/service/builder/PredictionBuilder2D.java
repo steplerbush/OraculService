@@ -1,17 +1,19 @@
 package org.oracul.service.builder;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.oracul.service.dto.Prediction2D;
+import org.oracul.service.service.Prediction2DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PredictionBuilder2D extends PredictionBuilder {
-	private static final Logger LOGGER = Logger
-			.getLogger(PredictionBuilder2D.class);
+	private static final Logger LOGGER = Logger.getLogger(PredictionBuilder2D.class);
 
 	@Value("${oracul.singleton-results.u}")
 	private String singletonUpath;
@@ -20,20 +22,29 @@ public class PredictionBuilder2D extends PredictionBuilder {
 	private String singletonVpath;
 
 	@Autowired
-	public PredictionBuilder2D(@Value("${2d.size.u}") Integer uDimension,
-			@Value("${2d.size.v}") Integer vDimension) {
+	public PredictionBuilder2D(@Value("${2d.size.u}") Integer uDimension, @Value("${2d.size.v}") Integer vDimension) {
 		super(uDimension, vDimension);
 	}
 
+	@Autowired
+	private Prediction2DService prediction2dRepository;
+
 	public Prediction2D buildPrediction(Long id) {
+		Prediction2D prediction2d = prediction2dRepository.findById(id);
 		LOGGER.debug("Prediction2D task#" + id + " files parsing.");
 		File uValuesFile = new File(singletonUpath + "/" + id + "/" + "u.out");
-		File vValuesFile = new File(singletonVpath + "/" + id + "/" + "u.out");
+		File vValuesFile = new File(singletonVpath + "/" + id + "/" + "v.out");
 		double[] u = parseDoubles(uValuesFile);
 		double[] v = parseDoubles(vValuesFile);
-		Prediction2D prediction2d = new Prediction2D(u, v, getuDimension(),
-				getvDimension());
-		prediction2d.setId(id);
+		prediction2d.setGridU(getuDimension());
+		prediction2d.setGridV(getvDimension());
+		prediction2d.setU(u);
+		prediction2d.setU(v);
+		try {
+			FileUtils.deleteDirectory(uValuesFile.getParentFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return prediction2d;
 	}
 

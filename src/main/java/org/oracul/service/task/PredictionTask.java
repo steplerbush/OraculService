@@ -5,27 +5,25 @@ import org.oracul.service.util.PropertyHolder;
 
 public abstract class PredictionTask implements Runnable {
 
-    private static long counter = 1;
 
-    protected Long id;
-    protected String parameters[];
-    PropertyHolder propertyHolder;
+	protected Long id;
+	protected String parameters[];
+	
 
-    protected IntegrationFacade facade;
+	protected IntegrationFacade facade;
 
-    public PredictionTask(String[] parameters, IntegrationFacade facade) {
-        this.id = counter++;
-        this.parameters = parameters;
-        this.facade = facade;
-        this.propertyHolder = new PropertyHolder();
-    }
+	public PredictionTask(Long id, String[] parameters, IntegrationFacade facade) {
+		this.id = id;
+		this.parameters = parameters;
+		this.facade = facade;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public abstract Integer getCores();
+	public abstract Integer getCores();
 
-    protected abstract void executePredictionCalculation();
+	protected abstract void executePredictionCalculation();
 
 }

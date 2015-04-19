@@ -32,4 +32,17 @@ public class Prediction2DServiceImpl implements Prediction2DService {
 		return prediction2d;
 	}
 
+	@Override
+	@Transactional
+	public Long createPrediction(Prediction2D prediction) {
+		Prediction2D prediction2d = predictionRepository.save(prediction);
+		return prediction2d.getId();
+	}
+
+	@Override
+	@Transactional
+	public void deletePrediction(Long id) {
+		predictionRepository.delete(id);
+	}
+
 }
