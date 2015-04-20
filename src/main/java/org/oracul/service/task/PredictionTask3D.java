@@ -21,12 +21,10 @@ public class PredictionTask3D extends PredictionTask {
 		String command = facade.getProperty().getExecuteOraculCommand3D();
 		String dir = facade.getProperty().getExecuteOraculDir3D();
 		try {
-			LOGGER.debug("Execute calculation 3D task: test sleep for 10 sec");
-			Thread.sleep(10000);
 			LOGGER.debug("Starting prediction calculation for 3D task #" + id
 					+ " parameters: [DIR= " + dir + ", COMMAND=" + command
 					+ "]");
-			 ProcessBuilder processBuilder = new ProcessBuilder(command);
+			 ProcessBuilder processBuilder = new ProcessBuilder(command , id.toString());
 			 processBuilder.directory(new File(dir));
 			 Process start = processBuilder.start();
 			 start.waitFor();

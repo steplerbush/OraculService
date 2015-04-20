@@ -39,7 +39,7 @@ public class PredictionBuilder2D extends PredictionBuilder {
 		prediction2d.setGridU(getuDimension());
 		prediction2d.setGridV(getvDimension());
 		prediction2d.setU(u);
-		prediction2d.setU(v);
+		prediction2d.setV(v);
 		try {
 			FileUtils.deleteDirectory(uValuesFile.getParentFile());
 		} catch (IOException e) {

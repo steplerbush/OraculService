@@ -19,15 +19,20 @@ public class PredictionTask2D extends PredictionTask {
 		String command = facade.getProperty().getExecuteOraculCommand2D();
 		String dir = facade.getProperty().getExecuteOraculDir2D();
 		try {
-			LOGGER.debug("Execute calculation 2D task: test sleep for 10 sec");
-			Thread.sleep(10000);
-			LOGGER.debug("Starting prediction calculation for 2D task #" + id + " parameters: [DIR= " + dir
-					+ ", COMMAND=" + command + "]");
-			 ProcessBuilder processBuilder = new ProcessBuilder(command);
+						LOGGER.debug("Starting prediction calculation for 2D task #" + id + " parameters: [DIR= " + dir
+					+ ", COMMAND=" + command +  " " + id + "]");
+			 ProcessBuilder processBuilder = new ProcessBuilder(command , id.toString());
+			 LOGGER.debug("ProcessBuilder created");
+			 LOGGER.debug("Directory " + dir + " exist" +new File(dir).exists());
 			 processBuilder.directory(new File(dir));
+			 LOGGER.debug("Directory added");
 			 Process start = processBuilder.start();
+			 LOGGER.debug("Process started");
 			 start.waitFor();
 		} catch (Exception e) {
+			LOGGER.debug("ERROR here");
+			LOGGER.debug(e);
+			LOGGER.debug(e.getMessage());
 			LOGGER.debug("ERROR while executing prediction calculation in 2D task");
 		}
 	}
@@ -40,7 +45,7 @@ public class PredictionTask2D extends PredictionTask {
 	@Override
 	public void run() {
 		executePredictionCalculation();
-		LOGGER.debug("Execute calculation 2D task#" + getId() + ": test sleep for 10 sec");
+		LOGGER.debug("Execute calculation 2D task#" + getId());
 		LOGGER.debug("For testing getting builder" + facade.getBuilder2D());
 		Prediction2D pred = facade.getBuilder2D().buildPrediction(getId());
 		facade.putResult(getId(), pred);
