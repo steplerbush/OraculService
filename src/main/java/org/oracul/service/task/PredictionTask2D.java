@@ -22,17 +22,11 @@ public class PredictionTask2D extends PredictionTask {
 						LOGGER.debug("Starting prediction calculation for 2D task #" + id + " parameters: [DIR= " + dir
 					+ ", COMMAND=" + command +  " " + id + "]");
 			 ProcessBuilder processBuilder = new ProcessBuilder(command , id.toString());
-			 LOGGER.debug("ProcessBuilder created");
-			 LOGGER.debug("Directory " + dir + " exist" +new File(dir).exists());
 			 processBuilder.directory(new File(dir));
 			 LOGGER.debug("Directory added");
 			 Process start = processBuilder.start();
-			 LOGGER.debug("Process started");
 			 start.waitFor();
 		} catch (Exception e) {
-			LOGGER.debug("ERROR here");
-			LOGGER.debug(e);
-			LOGGER.debug(e.getMessage());
 			LOGGER.debug("ERROR while executing prediction calculation in 2D task");
 		}
 	}
@@ -46,9 +40,8 @@ public class PredictionTask2D extends PredictionTask {
 	public void run() {
 		executePredictionCalculation();
 		LOGGER.debug("Execute calculation 2D task#" + getId());
-		LOGGER.debug("For testing getting builder" + facade.getBuilder2D());
-		Prediction2D pred = facade.getBuilder2D().buildPrediction(getId());
-		facade.putResult(getId(), pred);
+		Prediction2D pred = facade.getPrediction2dRepository().findById(getId());
+		pred = facade.getBuilder2D().buildPrediction(pred);
 		facade.getPrediction2dRepository().savePrediction(pred);
 		facade.removeStatus(getId());
 		facade.releaseCores(getCores());

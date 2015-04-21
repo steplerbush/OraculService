@@ -27,7 +27,7 @@ public abstract class PredictionBuilder {
 		}
 	}
 	
-	public abstract Object  buildPrediction(Long id);
+	public abstract Object  buildPrediction(Object predict);
 
 	public void setuDimension(int uDimension) {
 		this.uDimension = uDimension;

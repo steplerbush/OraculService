@@ -1,9 +1,9 @@
 package org.oracul.service.controller;
 
-import java.util.Arrays;
-
 import org.oracul.service.dto.Prediction2D;
+import org.oracul.service.dto.Prediction3D;
 import org.oracul.service.service.Prediction2DService;
+import org.oracul.service.service.Prediction3DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,18 +19,39 @@ public class MapController {
 
 	@Autowired
 	private Prediction2DService prediction2dRepository;
+	
+	@Autowired
+	private Prediction3DService prediction3dRepository;
 
-	@RequestMapping(value = "/map/prediction/{id}", method = RequestMethod.GET)
-	public String map(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
+	@RequestMapping(value = "/map/prediction/2d/{id}", method = RequestMethod.GET)
+	public String map2D(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
 		Prediction2D p = prediction2dRepository.findById(id);
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonU = mapper.writeValueAsString(p.getU());
+		if (p != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonU = mapper.writeValueAsString(p.getU());
 
-		String jsonV = mapper.writeValueAsString(p.getV());
+			String jsonV = mapper.writeValueAsString(p.getV());
 
-		model.addAttribute("u", jsonU); 
-		model.addAttribute("v", jsonV);
-		return "map";
+			model.addAttribute("u", jsonU);
+			model.addAttribute("v", jsonV);
+		}
+
+		return "map2d";
+	}
+	
+	@RequestMapping(value = "/map/prediction/3d/{id}", method = RequestMethod.GET)
+	public String map3D(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
+		Prediction3D p = prediction3dRepository.findById(id);
+		if (p != null) {
+//			ObjectMapper mapper = new ObjectMapper();
+//			String jsonU = mapper.writeValueAsString(p.getU());
+//
+//			String jsonV = mapper.writeValueAsString(p.getV());
+//
+//			model.addAttribute("u", jsonU);
+//			model.addAttribute("v", jsonV);
+		}
+
+		return "map3d";
 	}
 }
-

@@ -1,5 +1,6 @@
 package org.oracul.service.task;
 
+import org.oracul.service.dto.PeriodicalPrediction;
 import org.oracul.service.dto.Prediction2D;
 import org.oracul.service.dto.Prediction3D;
 import org.oracul.service.dto.PredictionStatus;
@@ -17,11 +18,11 @@ public class PredictionTaskCreator {
 	private IntegrationFacade facade;
 
 	public enum PredictionType {
-		TASK_2D, TASK_3D
+		TASK_2D, TASK_3D, PERIODICAL_TASK_2D
 	}
 
-	public Long createPrediction(PredictionType type, String[] params) throws InterruptedException {
-		PredictionTask predictionTask;
+	public Long createPrediction(PredictionType type, String... params) throws InterruptedException {
+		PredictionTask predictionTask = null;
 		Long id = null;
 		switch (type) {
 		case TASK_2D: {
@@ -34,8 +35,10 @@ public class PredictionTaskCreator {
 			predictionTask = new PredictionTask3D(id, params, facade);
 			break;
 		}
-		default: {
-			predictionTask = null;
+		case PERIODICAL_TASK_2D: {
+			id = facade.getPeriodicalPredictionRepository().createPrediction(new PeriodicalPrediction());
+			predictionTask = new PeriodicalPredictionTask(id, facade, params);
+			break;
 		}
 		}
 		return orderPrediction(predictionTask, type);
@@ -45,16 +48,6 @@ public class PredictionTaskCreator {
 		try {
 			facade.getQueue().addTask(task);
 		} catch (InterruptedException ie) {
-			switch (type) {
-			case TASK_2D: {
-				facade.getPrediction2dRepository().deletePrediction(task.getId());
-				break;
-			}
-			case TASK_3D: {
-				facade.getPrediction3dRepository().deletePrediction(task.getId());
-				break;
-			}
-			}
 			throw new InterruptedException();
 		}
 		facade.getStatusHolder().putStatus(task.getId(), PredictionStatus.IN_ORDER);

@@ -21,8 +21,22 @@ public class PropertyHolder {
     private String executeOraculCommand2D;
     @Value("${oracul.execute.command.3d}")
     private String executeOraculCommand3D;
+    
+    @Value("${oracul.periodical.execute.dir}")
+	private String executeOraculDirPeriodical;
+	@Value("${oracul.periodical.execute.command}")
+	private String executeOraculCommandPeriodical;
+	
 
-    public Integer getCore2d() {
+    public String getExecuteOraculDirPeriodical() {
+		return executeOraculDirPeriodical;
+	}
+
+	public String getExecuteOraculCommandPeriodical() {
+		return executeOraculCommandPeriodical;
+	}
+
+	public Integer getCore2d() {
         return core2d;
     }
 

@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.oracul.service.dto.Level;
 import org.oracul.service.dto.Prediction3D;
-import org.oracul.service.service.Prediction3DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,13 +28,11 @@ public class PredictionBuilder3D extends PredictionBuilder {
 		super(u3Dimension, v3Dimension);
 	}
 
-	@Autowired
-	private Prediction3DService prediction3dRepository;
-
-	public Prediction3D buildPrediction(Long id) {
+	public Prediction3D buildPrediction(Object prediction) {
+		Prediction3D prediction3d = (Prediction3D)prediction;
+		Long id  = prediction3d.getId();
 		File root = new File(pathToFiles + "/" + id + "/");
 		File[] files = root.listFiles();
-		Prediction3D prediction3d = prediction3dRepository.findById(id);
 		prediction3d.setGridU(getuDimension());
 		prediction3d.setGridV(getvDimension());
 		Map<Integer, Level> data = new HashMap<>();

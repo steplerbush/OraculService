@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "PREDICTION2D")
@@ -22,6 +25,10 @@ public class Prediction2D {
 
 	private int gridU;
 	private int gridV;
+
+	@ManyToOne
+	@JsonIgnore
+	private PeriodicalPrediction periodicalPrediction;
 
 	public Prediction2D() {
 	}
@@ -71,6 +78,14 @@ public class Prediction2D {
 
 	public void setGridV(int gridV) {
 		this.gridV = gridV;
+	}
+
+	public PeriodicalPrediction getPeriodicalPrediction() {
+		return periodicalPrediction;
+	}
+
+	public void setPeriodicalPrediction(PeriodicalPrediction periodicalPrediction) {
+		this.periodicalPrediction = periodicalPrediction;
 	}
 
 }

@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.oracul.service.dto.Prediction2D;
-import org.oracul.service.service.Prediction2DService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,11 +25,9 @@ public class PredictionBuilder2D extends PredictionBuilder {
 		super(uDimension, vDimension);
 	}
 
-	@Autowired
-	private Prediction2DService prediction2dRepository;
-
-	public Prediction2D buildPrediction(Long id) {
-		Prediction2D prediction2d = prediction2dRepository.findById(id);
+	public Prediction2D buildPrediction(Object prediction) {
+		Prediction2D prediction2d = (Prediction2D) prediction;
+		Long id = prediction2d.getId();
 		LOGGER.debug("Prediction2D task#" + id + " files parsing.");
 		File uValuesFile = new File(singletonUpath + "/" + id + "/" + "u.out");
 		File vValuesFile = new File(singletonVpath + "/" + id + "/" + "v.out");
