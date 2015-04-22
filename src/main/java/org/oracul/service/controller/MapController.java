@@ -1,5 +1,6 @@
 package org.oracul.service.controller;
 
+import org.oracul.service.dto.Level;
 import org.oracul.service.dto.Prediction2D;
 import org.oracul.service.dto.Prediction3D;
 import org.oracul.service.service.Prediction2DService;
@@ -19,7 +20,7 @@ public class MapController {
 
 	@Autowired
 	private Prediction2DService prediction2dRepository;
-	
+
 	@Autowired
 	private Prediction3DService prediction3dRepository;
 
@@ -38,18 +39,22 @@ public class MapController {
 
 		return "map2d";
 	}
-	
+
 	@RequestMapping(value = "/map/prediction/3d/{id}", method = RequestMethod.GET)
 	public String map3D(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
 		Prediction3D p = prediction3dRepository.findById(id);
 		if (p != null) {
-//			ObjectMapper mapper = new ObjectMapper();
-//			String jsonU = mapper.writeValueAsString(p.getU());
-//
-//			String jsonV = mapper.writeValueAsString(p.getV());
-//
-//			model.addAttribute("u", jsonU);
-//			model.addAttribute("v", jsonV);
+			ObjectMapper mapper = new ObjectMapper();
+			Level level = p.getLevels().get(0);
+
+			String jsonU = mapper.writeValueAsString(level.getU());
+
+			String jsonV = mapper.writeValueAsString(level.getV());
+
+			String jsonT = mapper.writeValueAsString(level.getT());
+			model.addAttribute("u", jsonU);
+			model.addAttribute("v", jsonV);
+			model.addAttribute("t", jsonT);
 		}
 
 		return "map3d";

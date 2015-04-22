@@ -38,12 +38,10 @@ public class PeriodicalPredictionController {
 	@ResponseStatus(HttpStatus.OK)
 	public Object orderPeriodicalPrediction(HttpServletRequest request, @PathVariable Integer predictionTimeStep,
 			@PathVariable Integer predictionCount) throws InterruptedException {
-		Validate.isTrue(predictionCount > 0, "predictionCount must be positive");
-		Validate.isTrue(predictionTimeStep > 0, "predictionTimeStep must be positive");
-		Validate.isTrue(predictionCount * predictionTimeStep <= maxPredictionSeconds,
-				"maximum supported prediction is " + maxPredictionSeconds / 3600 + " hours");
-		Validate.isTrue(predictionCount <= maxPredictionCount, "can return " + maxPredictionCount
-				+ " predictions at most");
+		if (predictionCount * predictionTimeStep <= maxPredictionSeconds) {
+			return "maximum supported prediction is " + maxPredictionSeconds / 3600 + " hours";
+		}
+
 		if (facade.getQueue().size() >= facade.getQueue().getMaxSize()) {
 			LOGGER.debug("Queue is overloaded. Task is rejected.");
 			throw new QueueOverflowException();
