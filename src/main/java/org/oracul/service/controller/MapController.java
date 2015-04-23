@@ -40,12 +40,12 @@ public class MapController {
 		return "map2d";
 	}
 
-	@RequestMapping(value = "/map/prediction/3d/{id}", method = RequestMethod.GET)
-	public String map3D(Model model, @PathVariable("id") Long id) throws JsonProcessingException {
+	@RequestMapping(value = "/map/prediction/3d/{id}/{lvl}", method = RequestMethod.GET)
+	public String map3D(Model model, @PathVariable("id") Long id, @PathVariable("lvl") Integer lvl) throws JsonProcessingException {
 		Prediction3D p = prediction3dRepository.findById(id);
 		if (p != null) {
 			ObjectMapper mapper = new ObjectMapper();
-			Level level = p.getLevels().get(0);
+			Level level = p.getLevels().get(lvl);
 
 			String jsonU = mapper.writeValueAsString(level.getU());
 

@@ -38,7 +38,7 @@ public class PeriodicalPredictionController {
 	@ResponseStatus(HttpStatus.OK)
 	public Object orderPeriodicalPrediction(HttpServletRequest request, @PathVariable Integer predictionTimeStep,
 			@PathVariable Integer predictionCount) throws InterruptedException {
-		if (predictionCount * predictionTimeStep <= maxPredictionSeconds) {
+		if (predictionCount * predictionTimeStep >= maxPredictionSeconds) {
 			return "maximum supported prediction is " + maxPredictionSeconds / 3600 + " hours";
 		}
 
