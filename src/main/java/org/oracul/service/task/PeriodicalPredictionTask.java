@@ -39,14 +39,17 @@ public class PeriodicalPredictionTask extends PredictionTask {
 
 	@Override
 	public void run() {
-		executePredictionCalculation();
-		LOGGER.debug("Execute calculation Periodical task #" + getId());
-		PeriodicalPrediction pred = facade.getPeriodicalPredictionRepository().findById(getId());
-		pred.setPredictionTimeStep(Integer.parseInt(parameters[1]));
-		pred = facade.getPeriodicalBuilder().buildPrediction(pred);
-		facade.releaseCores(getCores());
-		facade.getPeriodicalPredictionRepository().savePrediction(pred);
-		facade.removeStatus(getId());
+		try {
+			executePredictionCalculation();
+			LOGGER.debug("Execute calculation Periodical task #" + getId());
+			PeriodicalPrediction pred = facade.getPeriodicalPredictionRepository().findById(getId());
+			pred.setPredictionTimeStep(Integer.parseInt(parameters[1]));
+			pred = facade.getPeriodicalBuilder().buildPrediction(pred);
+			facade.getPeriodicalPredictionRepository().savePrediction(pred);
+			facade.removeStatus(getId());
+		} finally {
+			facade.releaseCores(getCores());
+		}
 
 	}
 }

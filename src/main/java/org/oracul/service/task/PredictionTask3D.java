@@ -37,12 +37,15 @@ public class PredictionTask3D extends PredictionTask {
 
 	@Override
 	public void run() {
-		executePredictionCalculation();
-		LOGGER.debug("Execute calculation 3D task #" + getId() + ": test sleep for 10 sec");
-		Prediction3D pred = facade.getPrediction3dRepository().findById(getId());
-		pred = facade.getBuilder3D().buildPrediction(pred);
-		facade.releaseCores(getCores());
-		facade.getPrediction3dRepository().savePrediction(pred);
-		facade.removeStatus(getId());
+		try {
+			executePredictionCalculation();
+			LOGGER.debug("Execute calculation 3D task #" + getId() + ": test sleep for 10 sec");
+			Prediction3D pred = facade.getPrediction3dRepository().findById(getId());
+			pred = facade.getBuilder3D().buildPrediction(pred);
+			facade.getPrediction3dRepository().savePrediction(pred);
+			facade.removeStatus(getId());
+		} finally {
+			facade.releaseCores(getCores());
+		}
 	}
 }

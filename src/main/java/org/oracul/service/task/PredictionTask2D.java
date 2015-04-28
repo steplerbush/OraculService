@@ -38,12 +38,15 @@ public class PredictionTask2D extends PredictionTask {
 
 	@Override
 	public void run() {
+		try{
 		executePredictionCalculation();
 		LOGGER.debug("Execute calculation 2D task#" + getId());
 		Prediction2D pred = facade.getPrediction2dRepository().findById(getId());
 		pred = facade.getBuilder2D().buildPrediction(pred);
 		facade.getPrediction2dRepository().savePrediction(pred);
 		facade.removeStatus(getId());
+	} finally {
 		facade.releaseCores(getCores());
+	}
 	}
 }

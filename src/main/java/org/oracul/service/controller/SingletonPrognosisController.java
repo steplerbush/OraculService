@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.oracul.service.dto.Prediction2D;
 import org.oracul.service.dto.Prediction3D;
+import org.oracul.service.dto.PredictionStatus;
 import org.oracul.service.executor.PredictionExecutor;
 import org.oracul.service.service.Prediction2DService;
 import org.oracul.service.service.Prediction3DService;
@@ -81,7 +82,7 @@ public class SingletonPrognosisController {
 	@RequestMapping(value = "/3d/{id}", method = RequestMethod.GET)
 	public Object getPrediction3D(@PathVariable("id") Long id) {
 		Prediction3D prediction = prediction3dRepository.findById(id);
-		if (prediction != null && prediction.getLevels() != null) {
+		if (prediction != null && prediction.getLevels().size() != 0) {
 			return prediction;
 		} else {
 			return statusHolder.checkStatus(id);
