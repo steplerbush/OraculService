@@ -9,7 +9,7 @@ public class HelloController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String printWelcome() {
-		return new String("Welcome to Oracul Service v 1.2.1");
+		return new String("Welcome to Oracul Service v 1.3.1");
 	}
 	
 }

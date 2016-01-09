@@ -4,6 +4,7 @@ import org.oracul.service.builder.PeriodicalPredictionBuilder;
 import org.oracul.service.builder.PredictionBuilder2D;
 import org.oracul.service.builder.PredictionBuilder3D;
 import org.oracul.service.executor.PredictionExecutor;
+import org.oracul.service.service.ImagePredictionService;
 import org.oracul.service.service.PeriodicalPredictionService;
 import org.oracul.service.service.Prediction2DService;
 import org.oracul.service.service.Prediction3DService;
@@ -44,7 +45,13 @@ public class IntegrationFacade {
 	private Prediction3DService prediction3dRepository;
 
 	@Autowired
+	private ImagePredictionService imagePredictionRepository;
+
+	@Autowired
 	private PeriodicalPredictionService periodicalPredictionRepository;
+
+	@Autowired
+	private OraculHttpClient oraculHttpClient;
 
 	public PeriodicalPredictionBuilder getPeriodicalBuilder() {
 		return periodicalBuilder;
@@ -92,5 +99,13 @@ public class IntegrationFacade {
 
 	public PeriodicalPredictionService getPeriodicalPredictionRepository() {
 		return periodicalPredictionRepository;
+	}
+
+	public OraculHttpClient getOraculHttpClient() {
+		return oraculHttpClient;
+	}
+
+	public ImagePredictionService getImagePredictionRepository() {
+		return imagePredictionRepository;
 	}
 }
