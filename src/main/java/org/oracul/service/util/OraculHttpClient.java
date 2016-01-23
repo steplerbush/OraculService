@@ -62,6 +62,7 @@ public class OraculHttpClient {
             LOG.error("Error while processing request to remote service", e);
             throw new RuntimeException(e);
         }
+        LOG.debug("Image received successfully! And saved to " + image.getAbsolutePath() + ", exists - " + image.exists());
         return image;
     }
 }

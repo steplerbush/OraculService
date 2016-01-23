@@ -26,6 +26,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -76,8 +78,29 @@ public class SingletonPrognosisController {
 		return request.getRequestURL().substring(0, request.getRequestURL().indexOf("order")) + "3d/" + taskID;
 	}
 
-	@RequestMapping(value = "/order/image", method = RequestMethod.GET)
-	public @ResponseBody Object orderFile() throws InterruptedException {
+	@RequestMapping(value = "/2d/{id}", method = RequestMethod.GET)
+	public Object getPrediction2D(@PathVariable("id") Long id) {
+		Prediction2D prediction = prediction2dRepository.findById(id);
+		if (prediction != null && prediction.getU() != null) {
+			return prediction;
+		} else {
+			return statusHolder.checkStatus(id);
+		}
+	}
+
+	@RequestMapping(value = "/3d/{id}", method = RequestMethod.GET)
+	public Object getPrediction3D(@PathVariable("id") Long id) {
+		Prediction3D prediction = prediction3dRepository.findById(id);
+		if (prediction != null && prediction.getLevels().size() != 0) {
+			return prediction;
+		} else {
+			return statusHolder.checkStatus(id);
+		}
+	}
+
+	@RequestMapping(value = "/order/image", method = RequestMethod.GET, produces = "application/json")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody Map<String, Object> orderFile() throws InterruptedException {
 		JSONObject jsonObject = facade.getOraculHttpClient().sendGetJSONRequest(facade.getProperty().getGpuServerAddress()
 				+ facade.getProperty().getGpuRootSubURL() + facade.getProperty().getGpuOrderSubURL());
 		UUID id = UUID.fromString(jsonObject.getString("id"));
@@ -85,7 +108,10 @@ public class SingletonPrognosisController {
 		LOGGER.debug("Received id=" + id + ", time to wait is = " + wait);
 		//ImagePrediction imagePrediction = new ImagePrediction(id,PredictionStatus.PENDING.ordinal());
 		//facade.getImagePredictionRepository().createPrediction(imagePrediction);
-		return jsonObject.toString();
+		Map<String, Object> returnParams = new HashMap<>();
+		returnParams.put("id", id);
+		returnParams.put("wait", wait);
+		return returnParams;
 	}
 
 	//Возвращать на лайфрей по ордеру гуид и время ожидания. там в джаваскрипте єто отобразить и сделать таймер
@@ -153,7 +179,7 @@ public class SingletonPrognosisController {
 		return imageout;
 	}
 
-	private File getFileFromRemote(@PathVariable("id") UUID id) throws InterruptedException {
+	private File getFileFromRemote(UUID id) throws InterruptedException {
 		JSONObject jsonObject;
 		File image;
 		Long wait;
@@ -192,25 +218,5 @@ public class SingletonPrognosisController {
                         + id
                         + facade.getProperty().getGpuImageResultsFormat());
 		return image;
-	}
-
-	@RequestMapping(value = "/2d/{id}", method = RequestMethod.GET)
-	public Object getPrediction2D(@PathVariable("id") Long id) {
-		Prediction2D prediction = prediction2dRepository.findById(id);
-		if (prediction != null && prediction.getU() != null) {
-			return prediction;
-		} else {
-			return statusHolder.checkStatus(id);
-		}
-	}
-
-	@RequestMapping(value = "/3d/{id}", method = RequestMethod.GET)
-	public Object getPrediction3D(@PathVariable("id") Long id) {
-		Prediction3D prediction = prediction3dRepository.findById(id);
-		if (prediction != null && prediction.getLevels().size() != 0) {
-			return prediction;
-		} else {
-			return statusHolder.checkStatus(id);
-		}
 	}
 }
